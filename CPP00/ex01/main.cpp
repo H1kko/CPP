@@ -6,7 +6,7 @@
 /*   By: maregnie <maregnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:15:44 by maregnie          #+#    #+#             */
-/*   Updated: 2025/04/29 17:59:18 by maregnie         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:03:28 by maregnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main (void)
 {
 	PhoneBook PhoneBook;
 	std::string buf;
+	std::cout << "PhoneBook> ";
 	while (std::getline(std::cin, buf))
 	{
 		if (buf == "EXIT")
@@ -26,5 +27,6 @@ int	main (void)
 			PhoneBook.search();
 		else
 			std::cout << "Bad Input." << std::endl;
+		std::cout << "PhoneBook> ";
 	}
 }
