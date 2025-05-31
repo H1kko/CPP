@@ -6,7 +6,7 @@
 /*   By: maregnie <maregnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:41:05 by maregnie          #+#    #+#             */
-/*   Updated: 2025/05/03 13:10:39 by maregnie         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:08:01 by maregnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	is_empty(std::string str)
 		else
 			j = 0;
 	}
-	if (j >= 10 || j >= str.size() - 1)
+	if (j >= 10 || j >= str.size())
 		return (1);
 	return (0);
 }
@@ -137,6 +137,7 @@ void	PhoneBook::search(void)
 			tmp.resize(10);
 			if (_bool)
 				tmp[9] = '.';
+			_bool = 0;
 			std::cout << tmp << "|";
 			tmp = PhoneBook::_contact[i].getLname();
 			while (tmp.size() < 10)
@@ -146,6 +147,7 @@ void	PhoneBook::search(void)
 			tmp.resize(10);
 			if (_bool)
 				tmp[9] = '.';
+			_bool = 0;
 			std::cout << tmp << "|";
 			tmp = PhoneBook::_contact[i].getNname();
 			while (tmp.size() < 10)
@@ -155,6 +157,7 @@ void	PhoneBook::search(void)
 			tmp.resize(10);
 			if (_bool)
 				tmp[9] = '.';
+			_bool = 0;
 			std::cout << tmp;
 			std::cout << std::endl;
 		}
