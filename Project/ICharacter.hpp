@@ -5,6 +5,19 @@
 
 class AMateria;
 
+typedef struct stats
+{
+    std::string effect;
+    int _turn; 
+} t_stats;
+
+typedef struct buffs
+{
+    std::string effect;
+    int _turn;
+} t_buffs;
+
+
 class ICharacter
 {
 	public:
@@ -18,11 +31,6 @@ class ICharacter
 		virtual void	skills(std::vector<ICharacter*> & characters) = 0;
 		virtual void	magic(std::vector<ICharacter*> & characters) = 0;
 
-		typedef struct stats
-		{
-			std::string effect;
-			int _turn; 
-		}	t_stats;
 
 		virtual void setHealth(int health) = 0;
 		virtual void setAttackDamage(int ad) = 0;
@@ -35,6 +43,11 @@ class ICharacter
 		virtual void setMana(int def) = 0;
 		virtual void setMaxHealth(int mana) = 0;
 		virtual void setBaseSpeed(int speed) = 0;
+		virtual void setEffect(int index, const std::string& effect) = 0;
+		virtual void setTurn(int index, int turn) = 0;
+		virtual void setBuff(std::string buff, int turn) = 0;
+		virtual void setStab(std::string stab) = 0;
+		virtual void setStatus(bool status) = 0;
 
 		virtual int	getHealth(void) const = 0;
 		virtual int	getAttackDamage(void) const = 0;
@@ -47,5 +60,9 @@ class ICharacter
 		virtual int	getMana(void) const = 0;
 		virtual int	getMaxHealth(void) const = 0;
 		virtual int getBaseSpeed(void) const = 0;
-		stats	_statsturn[4];
+		virtual stats getStats(int index) const = 0;
+		virtual buffs getBuff() const = 0;
+		virtual std::string getStab() const = 0;
+		virtual bool getStatus() const = 0;
+
 };

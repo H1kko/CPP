@@ -10,11 +10,6 @@ Character::Character()
     	this->_inventory[i] = NULL;
 		_act = 0;
 		_isDef = 0;
-		for (int j = 0; j < 4; j++)
-		{
-			_statsturn[j].effect = "NONE";
-			_statsturn[j]._turn = 0;
-		}
 	}
 }
 
@@ -27,11 +22,6 @@ Character::Character(std::string name)
     	this->_inventory[i] = NULL;
 		_act = 0;
 		_isDef = 0;
-		for (int j = 0; j < 4; j++)
-		{
-			this->_statsturn[j].effect = "NONE";
-			this->_statsturn[j]._turn = 0;
-		}
 	}
 
 	std::cout << name << " has been created" << std::endl;
@@ -99,8 +89,38 @@ void	Character::unequip(int idx)
 	this->_inventory[idx] = NULL;
 	std::cout << getName() << " unequiped a Materia at slot " << idx << std::endl;
 }
+// ========================================
+
+stats Character::getStats(int index) const
+{
+    if (index >= 0 && index < 4)
+        return _statsturn[index];
+
+    stats defaultStat;
+    defaultStat.effect = _statsturn->effect;
+    defaultStat._turn = _statsturn->_turn;
+    return defaultStat;
+}
+
 
 // ========================================
+
+buffs Character::getBuff() const
+{
+    buffs defaultBuff;
+    defaultBuff.effect = _status.effect;
+    defaultBuff._turn = _status._turn;
+    return defaultBuff;
+}
+
+// =======================================
+
+bool Character::getStatus() const
+{
+    return _hasStatus;
+}
+
+// =======================================
 
 int	Character::getAttackDamage(void) const
 {
@@ -236,6 +256,64 @@ void	Character::setDef(int def)
 }
 // ==============================================
 
+void Character::setEffect(int index, const std::string& effect)
+{
+    if (index >= 0 && index < 4)
+        _statsturn[index].effect = effect;
+}
+
+void Character::setTurn(int index, int turn)
+{
+    if (index >= 0 && index < 4)
+        _statsturn[index]._turn = turn;
+}
+
+// ==============================================
+
+void Character::setBuff(std::string buff, int turn)
+{
+    _status.effect = buff;
+	_status._turn = turn;
+}
+// ==============================================
+
+void Character::setStatus(bool status)
+{
+    _hasStatus = status;
+}
+
+// ==============================================
+
+void Character::setStab(std::string stab)
+{
+    if (stab == "fire")
+		_fireStab = 1;
+	else if (stab == "ice")
+		_iceStab = 1;
+	else if (stab == "lightning")
+		_lightningStab = 1;
+	else if (stab == "wind")
+		_windStab = 1;
+	else
+		return ;
+}
+
+std::string Character::getStab() const
+{
+	if (_fireStab)
+		return ("fire");
+	if (_iceStab)
+		return ("ice");
+	if (_lightningStab)
+		return ("lightning");
+	if (_windStab)
+		return ("wind");
+	else
+		return (NULL);
+}
+
+// ==============================================
+
 void	removeEffect(ICharacter &character, std::string effect, int idx)
 {
 	if (effect == "slow")
@@ -243,24 +321,32 @@ void	removeEffect(ICharacter &character, std::string effect, int idx)
 		character.setSpeed(character.getBaseSpeed());
 		std::cout << RGB(50,50,150) << "ennemy recovered his speed !" << CLR << std::endl;
 	}
-	character._statsturn[idx].effect = "NONE";
+	character.setEffect(idx, "NONE");
 }
 
 void	Character::act(std::vector<ICharacter*> & characters)
 {
 	std::string buf;
 	std::cout << std::endl;
-
+	if (this->getBuff().effect == "fire")
+	{
+		int dmg;
+		double rdm = 0.85 * (0.9 + (static_cast<double>(rand()) / RAND_MAX) * 0.2);
+		dmg = 80 / (1 + (this->getDefensemagic() * 1.08 / 100));
+		dmg *= 1.33 *rdm;
+		dmg *= rdm;
+	}
 	for (int i = 0; i < 4; i++)
 	{
-		if (this->_statsturn[i]._turn > 0 && this->_statsturn[i].effect != "NONE")
+		
+		if (this->getStats(i)._turn > 0 && this->getStats(i).effect != "NONE")
 		{
-			this->_statsturn[i]._turn--;
-			if (this->_statsturn[i]._turn == 0)
-				removeEffect(*this, this->_statsturn[i].effect, i);
+			this->setTurn(i, this->getStats(i)._turn - 1);
+			std::cout << RGB(255,0,0) << this->getStats(i)._turn << CLR << std::endl;
+			if (this->getStats(i)._turn == 0)
+				removeEffect(*this, this->getStats(i).effect, i);
 		}
 	}
-
 	if (this->getName() == "boss")
 	{
 		if (characters[0]->getHealth() <= 0 && characters[1]->getHealth() <= 0 && characters[2]->getHealth() <= 0 && characters[3]->getHealth() <= 0)
@@ -280,7 +366,10 @@ void	Character::act(std::vector<ICharacter*> & characters)
 		ICharacter *tmp = *it;
 		std::cout << std::endl << tmp->getName() << ": Health:" << tmp->getHealth() << "          Mana:" << tmp->getMana() << "          effect status: None" << "          stats modif: ";
 		for (int i = 0; i < 4; i++)
-			std::cout << tmp->_statsturn[i].effect << ", ";
+		{
+			std::cout << tmp->getStats(i).effect << ": ";
+			std::cout << tmp->getStats(i)._turn << ", ";
+		}
 		std::cout << std::endl;
 	}
 	std::getline(std::cin, buf);

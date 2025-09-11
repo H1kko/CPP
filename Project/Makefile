@@ -10,6 +10,7 @@ SRCS = AMateria.cpp \
 		main.cpp \
 		Character.cpp \
 		Cure.cpp \
+		Fire.cpp \
 		Ice.cpp \
 		SuperIce.cpp \
 		MateriaSource.cpp \

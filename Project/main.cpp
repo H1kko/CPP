@@ -2,6 +2,7 @@
 #include "Character.hpp"
 #include "MateriaSource.hpp"
 #include "Ice.hpp"
+#include "Fire.hpp"
 #include "SuperIce.hpp"
 #include "Cure.hpp"
 #include <cmath>
@@ -19,7 +20,7 @@ bool turnOrderDefiner(const std::pair<double, ICharacter*>& a, const std::pair<d
 }
 
 
-void	begin_turn(std::vector<ICharacter*> characters)
+void	begin_turn(std::vector<ICharacter*> & characters)
 {
 	std::vector< std::pair<double, ICharacter*> > turnOrder;
 
@@ -132,20 +133,25 @@ int main ()
 	src->learnMateria(new SuperIce());
 	AMateria	*tmp3 = src->createMateria("superice");
 
-	char1->equip(tmp);
-	char2->equip(tmp);
-	char3->equip(tmp);
-	char4->equip(tmp);
-	
-	char1->equip(tmp2);
-	char2->equip(tmp2);
-	char3->equip(tmp2);
-	char4->equip(tmp2);
+	src->learnMateria(new Fire());
+	AMateria	*tmp4 = src->createMateria("fire");
 
-	char1->equip(tmp3);
-	char2->equip(tmp3);
-	char3->equip(tmp3);
-	char4->equip(tmp3);
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			characters[i]->setEffect(j, "NONE");
+			characters[i]->setTurn(j, 0);
+		}
+		characters[i]->equip(tmp);
+		characters[i]->equip(tmp2);
+		characters[i]->equip(tmp3);
+		characters[i]->equip(tmp4);
+	}
+	char1->setStab("lightning");
+	char2->setStab("wind");
+	char3->setStab("fire");
+	char4->setStab("ice");
 	while (characters[4]->getHealth() > 0 || (characters[0]->getHealth() > 0 && characters[1]->getHealth() > 0 && characters[2]->getHealth() > 0 && characters[3]->getHealth() > 0))
 	{
 		system("clear");
@@ -176,7 +182,7 @@ int main ()
 	delete src;
 	delete tmp;
 	delete tmp2;
-	// delete tmp3;
-	// delete tmp4;
+	delete tmp3;
+	delete tmp4;
 	// delete tmp5;
 }

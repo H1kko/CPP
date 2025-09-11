@@ -36,6 +36,8 @@ int SuperIce::use(std::vector<ICharacter*> characters, int idx, ICharacter &cast
 	double rdm = 0.85 * (0.9 + (static_cast<double>(rand()) / RAND_MAX) * 0.2);
 	dmg = caster.getAttackPower() / (1 + (characters[idx]->getDefensemagic() * 1.125 / 100));
 	dmg *= 1.8;
+	if (caster.getStab() == "ice")
+		dmg *= 1.12;
 	dmg *= rdm;
 	std::cout << caster.getName() << " Materialize ice spikes at " << characters[idx]->getName() << " dealing " << dmg << " damages" << std::endl;
 	characters[idx]->setHealth(characters[idx]->getHealth() - dmg);
