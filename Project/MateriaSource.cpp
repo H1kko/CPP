@@ -33,7 +33,7 @@ MateriaSource::MateriaSource(const MateriaSource &copy)
 
 AMateria* MateriaSource::createMateria(std::string const &type)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 16; i++)
 	{
 		if (this->_storage[i] != NULL && this->_storage[i]->getType() == type)
 		{
@@ -47,7 +47,7 @@ AMateria* MateriaSource::createMateria(std::string const &type)
 
 void	MateriaSource::learnMateria(AMateria *src)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 16; i++)
 	{
 		if (this->_storage[i] == NULL)
 		{

@@ -3,6 +3,7 @@
 #include "MateriaSource.hpp"
 #include "Ice.hpp"
 #include "Fire.hpp"
+#include "SuperFlame.hpp"
 #include "SuperIce.hpp"
 #include "Cure.hpp"
 #include <cmath>
@@ -136,6 +137,8 @@ int main ()
 	src->learnMateria(new Fire());
 	AMateria	*tmp4 = src->createMateria("fire");
 
+	src->learnMateria(new SuperFlame());
+	AMateria	*tmp5 = src->createMateria("superflame");
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -147,6 +150,7 @@ int main ()
 		characters[i]->equip(tmp2);
 		characters[i]->equip(tmp3);
 		characters[i]->equip(tmp4);
+		characters[i]->equip(tmp5);
 	}
 	char1->setStab("lightning");
 	char2->setStab("wind");
@@ -154,7 +158,7 @@ int main ()
 	char4->setStab("ice");
 	while (characters[4]->getHealth() > 0 || (characters[0]->getHealth() > 0 && characters[1]->getHealth() > 0 && characters[2]->getHealth() > 0 && characters[3]->getHealth() > 0))
 	{
-		system("clear");
+		// system("clear");
 		begin_turn(characters);
 	}
 	if (characters[4]->getHealth() == 0)
@@ -171,7 +175,6 @@ int main ()
 
 	
 	
-	// AMateria	*tmp4 = src->createMateria("cure");
 	// AMateria	*tmp5 = src->createMateria("cure");
 
 	delete char1;

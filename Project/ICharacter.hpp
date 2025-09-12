@@ -30,6 +30,7 @@ class ICharacter
 		virtual void	defense(void) = 0;
 		virtual void	skills(std::vector<ICharacter*> & characters) = 0;
 		virtual void	magic(std::vector<ICharacter*> & characters) = 0;
+		virtual void 	HasAnyBuff() = 0;
 
 
 		virtual void setHealth(int health) = 0;

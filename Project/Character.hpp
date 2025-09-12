@@ -43,6 +43,7 @@ class Character : public ICharacter
 		void defense(void);
 		void skills(std::vector<ICharacter*> &characters);
 		void magic(std::vector<ICharacter*> &characters);
+		void HasAnyBuff();
 
 		void setHealth(int health);
 		void setAttackDamage(int ad);

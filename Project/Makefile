@@ -13,6 +13,7 @@ SRCS = AMateria.cpp \
 		Fire.cpp \
 		Ice.cpp \
 		SuperIce.cpp \
+		SuperFlame.cpp \
 		MateriaSource.cpp \
 
 OBJS = $(SRCS:.cpp=.o)

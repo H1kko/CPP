@@ -31,12 +31,13 @@ void	fireeffect(std::vector<ICharacter*> characters, int idx)
 {
 	int rdm;
 	rdm = rand() % 10;
-	if (rdm == 0)
+	if (rdm > 0)
 	{
 		if (characters[idx]->getStatus())
 			return ;
 		characters[idx]->setBuff("fire", 3);
-		std::cout << RGB(0,0,180) << "ennemy is burning" << CLR << std::endl;
+		characters[idx]->setStatus(1);
+		std::cout << RGB(180,0,0) << "ennemy is burning" << CLR << std::endl;
 	}
 }
 
@@ -51,7 +52,8 @@ int Fire::use(std::vector<ICharacter*> characters, int idx, ICharacter &caster)
 	dmg *= rdm;
 	std::cout << caster.getName() << " shoots a fireball at " << characters[idx]->getName() << " dealing " << dmg << " damages" << std::endl;
 	characters[idx]->setHealth(characters[idx]->getHealth() - dmg);
-	fireeffect(characters, idx);
+	if (!characters[idx]->getStatus())
+		fireeffect(characters, idx);
 	caster.setMana(caster.getMana() - 25);
 
 	return (0);

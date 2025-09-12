@@ -1,6 +1,7 @@
 #include "Character.hpp"
 #include "AMateria.hpp"
 #include <stdlib.h>
+#include <iomanip>
 
 Character::Character()
 {
@@ -59,9 +60,9 @@ void	Character::equip(AMateria* m)
 		std::cout << "an error occured, materia is null" << std::endl;
 		return ;
 	}
-	while (this->_inventory[i] && i < 4)
+	while (this->_inventory[i] && i < 16)
 		i++;
-	if (this->_inventory[3] != NULL)
+	if (this->_inventory[15] != NULL)
 	{
 		std::cout << _name << "'s inventory is full unequip an AMateria first." << std::endl;
 		return ;
@@ -76,7 +77,7 @@ void	Character::equip(AMateria* m)
 
 void	Character::unequip(int idx)
 {
-	if (idx < 0 || idx > 3)
+	if (idx < 0 || idx > 15)
 	{
 		std::cout << "Slot out of range, enter a value beetwin 0 and 3" << std::endl;
 		return ;
@@ -324,10 +325,16 @@ void	removeEffect(ICharacter &character, std::string effect, int idx)
 	character.setEffect(idx, "NONE");
 }
 
-void	Character::act(std::vector<ICharacter*> & characters)
+void	removeBuff(ICharacter &character, std::string buff)
 {
-	std::string buf;
-	std::cout << std::endl;
+	if (buff == "fire")
+		std::cout << RGB(180,0,0) << "ennemy is not burning anymore !" << CLR << std::endl;
+	character.setBuff("NONE", 0);
+	character.setStatus(0);
+}
+
+void	Character::HasAnyBuff()
+{
 	if (this->getBuff().effect == "fire")
 	{
 		int dmg;
@@ -335,18 +342,33 @@ void	Character::act(std::vector<ICharacter*> & characters)
 		dmg = 80 / (1 + (this->getDefensemagic() * 1.08 / 100));
 		dmg *= 1.33 *rdm;
 		dmg *= rdm;
+		this->setHealth(this->getHealth() - dmg);
+		std::cout << RGB(180,0,0) << this->getName() << " is burning. He took " << dmg << " damages !" << CLR << std::endl;
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		
 		if (this->getStats(i)._turn > 0 && this->getStats(i).effect != "NONE")
 		{
 			this->setTurn(i, this->getStats(i)._turn - 1);
-			std::cout << RGB(255,0,0) << this->getStats(i)._turn << CLR << std::endl;
 			if (this->getStats(i)._turn == 0)
 				removeEffect(*this, this->getStats(i).effect, i);
 		}
 	}
+	if (this->getStatus())
+	{
+		this->setBuff(this->getBuff().effect, this->getBuff()._turn -1);
+		if (this->getBuff()._turn == 0)
+			removeBuff(*this, "fire");
+	}
+}
+
+
+
+void	Character::act(std::vector<ICharacter*> & characters)
+{
+	std::string buf;
+	std::cout << std::endl;
+	this->HasAnyBuff();
 	if (this->getName() == "boss")
 	{
 		if (characters[0]->getHealth() <= 0 && characters[1]->getHealth() <= 0 && characters[2]->getHealth() <= 0 && characters[3]->getHealth() <= 0)
@@ -364,7 +386,7 @@ void	Character::act(std::vector<ICharacter*> & characters)
 	for (std::vector<ICharacter*>::iterator it = characters.begin(); it != characters.end(); ++it)
 	{
 		ICharacter *tmp = *it;
-		std::cout << std::endl << tmp->getName() << ": Health:" << tmp->getHealth() << "          Mana:" << tmp->getMana() << "          effect status: None" << "          stats modif: ";
+		std::cout << std::endl << tmp->getName() << ": Health:" << tmp->getHealth() << "          Mana:" << tmp->getMana() << "          effect status: " << tmp->getBuff().effect << ": " << tmp->getBuff()._turn << "          stats modif: ";
 		for (int i = 0; i < 4; i++)
 		{
 			std::cout << tmp->getStats(i).effect << ": ";
@@ -453,10 +475,30 @@ void	Character::skills(std::vector<ICharacter*> & characters)
 
 void	Character::magic(std::vector<ICharacter*> &characters)
 {
-	(void) characters;
 	std::string buf;
 	std::string target;
 
+
+	for (int i = 0; i < 16; i++)
+	{
+		if (this->_inventory[i] == NULL)
+			break;
+
+		int j = i + 1;
+
+		std::cout << "[" << std::setw(2) << std::right << i << " ] "
+				<< std::setw(15) << std::left << this->_inventory[i]->getType();
+
+		if (j < 16 && this->_inventory[j] != NULL)
+		{
+			std::cout << "[" << std::setw(2) << std::right << j << " ] "
+					<< std::setw(15) << std::left << this->_inventory[j]->getType();
+		}
+
+		std::cout << std::endl;
+
+		i = j;
+	}
 	std::getline(std::cin, buf);
 	if (!this->_inventory[atoi(buf.c_str())])
 	{
