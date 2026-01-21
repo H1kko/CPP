@@ -24,10 +24,6 @@ Weapon	*HumanA::getWeapon()
 	return (_weapon);
 }
 
-void	HumanA::setWeapon(Weapon &weapon)
-{
-	_weapon = &weapon;
-}
 
 void	HumanA::attack()
 {

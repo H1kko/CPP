@@ -2,54 +2,59 @@
 
 ClapTrap::ClapTrap()
 {
-
-	std::cout << "default constructor called for ClapTrap" << std::endl;
+	std::cout << "default constructor called" << std::endl;
+	_name = "Nameless";
 	_hp = 10;
 	_maxhp = _hp;
-	_mp = 10;
+	_end = 10;
 	_ad = 0;
 }
 
-ClapTrap::ClapTrap(std::string name)
+ClapTrap::ClapTrap(const std::string &name)
 {
-
-	std::cout << "constructor called for ClapTrap" << std::endl;
+	std::cout << "constructor called" << std::endl;
 	_name = name;
 	_hp = 10;
 	_maxhp = _hp;
-	_mp = 10;
+	_end = 10;
 	_ad = 0;
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "default destructor called for ClapTrap" << std::endl;
+	std::cout << "default destructor called" << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &copy)
 {
+	*this = copy;
 	std::cout << "copy constructor called for ClapTrap" << std::endl;
-	setHp(copy.getHp(0));
-	setMp(copy.getMp(0));
-	setAd(copy.getAd());
+}
+
+ClapTrap	&ClapTrap::operator=(const ClapTrap &obj)
+{
+	std::cout << "copy assignment constructor called for ClapTrap" << std::endl;
+	setHp(obj.getHp(0));
+	setEnd(obj.getEnd(0));
+	setName(obj.getName());
+	setAd(obj.getAd());
+	return *this;
 }
 
 
-int		ClapTrap::getMp(bool display) const
+const unsigned int		&ClapTrap::getEnd(bool display) const
 {
 	if (display)
-		std::cout << this->getName() << " has " << _mp << " Mp left" << std::endl;
-	return (_mp);
+		std::cout << this->getName() << " has " << _end << " end left" << std::endl;
+	return (_end);
 }
 
-void	ClapTrap::setMp(int const mp)
+void	ClapTrap::setEnd(int const end)
 {
-	_mp = mp;
+	_end = end;
 }
 
-
-
-int		ClapTrap::getAd(void) const
+const unsigned int		&ClapTrap::getAd(void) const
 {
 	return (_ad);
 }
@@ -59,14 +64,12 @@ void	ClapTrap::setAd(int const ad)
 	_ad = ad;
 }
 
-
-
 void	ClapTrap::setHp(int const hp)
 {
 	_hp = hp;
 }
 
-int		ClapTrap::getHp(bool display) const
+const int		&ClapTrap::getHp(bool display) const
 {
 	if (display)
 		std::cout << this->getName() << " has " << _hp << " Hp left" << std::endl;
@@ -75,7 +78,7 @@ int		ClapTrap::getHp(bool display) const
 
 
 
-void	ClapTrap::setName(std::string const name)
+void	ClapTrap::setName(std::string const &name)
 {
 	_name = name;
 }
@@ -90,25 +93,26 @@ std::string	ClapTrap::getName(void) const
 
 void	ClapTrap::attack(const std::string &target)
 {
-	if (this->_mp <= 0 || this->_hp <= 0)
+	if (this->_end <= 0 || this->_hp <= 0)
 	{
 		std::cout << "not enough ressources to perform this action" << std::endl;
 		return ;
 	}
 	std::cout << "ClapTrap " << this->getName() << " attacks " << target << ", causing " << this->getAd() << " points of damage !" << std::endl;
-	this->_mp--;
+	this->_end--;
 }
 
 void	ClapTrap::takeDamage(unsigned int amount)
 {
 	_hp -= amount;
 	if (_hp < 0)
-		_hp = 0;
+	_hp = 0;
+	std::cout << "\e[1;31m Damage: " << amount << ", Hp lefts : " << _hp << "\e[0m" << std::endl;
 }
 
 void	ClapTrap::beRepaired(unsigned int amount)
 {
-	if (this->_mp <= 0 || this->_hp <= 0)
+	if (this->_end <= 0 || this->_hp <= 0)
 	{
 		std::cout << "not enough ressources to perform this action" << std::endl;
 		return ;
@@ -123,5 +127,5 @@ void	ClapTrap::beRepaired(unsigned int amount)
 		std::cout << this->getName() << " heals himself " << _maxhp << " health points !" << std::endl;
 		_hp += amount;
 	}
-	this->_mp--;
+	this->_end--;
 }

@@ -3,33 +3,71 @@
 int	main (void)
 {
 	ClapTrap clap1("Clap");
-	ScavTrap clap2("Scav");
+	ScavTrap scav1("Scav");
 
-	clap1.attack(clap2.getName());
-	clap2.attack(clap1.getName());
-	clap1.attack(clap2.getName());
+	clap1.attack(scav1.getName());
+	scav1.attack(clap1.getName());
+	clap1.attack(scav1.getName());
 
-	clap1.getMp(1);
+	clap1.getEnd(1);
 
-	clap1.attack(clap2.getName());
-	clap2.takeDamage(clap1.getAd());
-	clap1.attack(clap2.getName());
-	clap2.takeDamage(clap1.getAd());
-	clap1.attack(clap2.getName());
-	clap2.takeDamage(clap1.getAd());
-	clap1.attack(clap2.getName());
-	clap2.takeDamage(clap1.getAd());
-	clap2.getHp(1);
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.getHp(1);
+	scav1.getHp(1);
 
-	clap1.getMp(1);
+	clap1.getEnd(1);
 
-	clap2.beRepaired(1);
-	clap2.getMp(1);
+	scav1.beRepaired(1);
+	scav1.getEnd(1);
 
-	clap2.attack(clap1.getName());
-	clap2.attack(clap1.getName());
-	clap2.guardGate();
-	clap2.attack(clap1.getName());
-	clap2.attack(clap1.getName());
-	clap2.attack(clap1.getName());
+	scav1.attack(clap1.getName());
+	scav1.attack(clap1.getName());
+	scav1.guardGate();
+	scav1.attack(clap1.getName());
+	scav1.attack(clap1.getName());
+	scav1.attack(clap1.getName());
+
+		std::cout << "=======  MORT =======" << std::endl;
+	
+	scav1.takeDamage(99999999);
+	clap1.attack(scav1.getName());
+	scav1.attack(clap1.getName());
+	clap1.attack(scav1.getName());
+
+	clap1.getEnd(1);
+
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.attack(scav1.getName());
+	scav1.takeDamage(clap1.getAd());
+	clap1.getHp(1);
+	scav1.getHp(1);
+
+	clap1.getEnd(1);
+
+	scav1.beRepaired(1);
+	scav1.getEnd(1);
+
+	scav1.attack(clap1.getName());
+	scav1.attack(clap1.getName());
+	scav1.guardGate();
+	scav1.attack(clap1.getName());
+	scav1.attack(clap1.getName());
+	scav1.attack(clap1.getName());
+
+	scav1.beRepaired(1);
+	scav1.getEnd(1);
+	scav1.getHp(1);
+	clap1.getHp(1);
 }

@@ -11,19 +11,17 @@
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
+
+void	randomChump(std::string name);
+
 int main (void)
 {
-	Zombie ptdr;
-	Zombie lool;
 	Zombie *test;
 
 	test = NULL;
-	ptdr.randomChump("trololol");
-	lool.randomChump("xdddd");
+	randomChump("trololol");
+	randomChump("xdddd");
 	test = test->newZombie("gerard");
-
-	ptdr.announce();
-	lool.announce();
 	test->announce();
 	delete(test);
 }

@@ -114,7 +114,6 @@ void PhoneBook::add(void)
 void	PhoneBook::search(void)
 {
 	std::string	tmp;
-	bool 		_bool = 0;
 	int 		i;
 
 	if (PhoneBook::_contact[0].getExist() == 0)
@@ -129,57 +128,43 @@ void	PhoneBook::search(void)
 		if (PhoneBook::_contact[i].getExist() == 1)
 		{
 			std::cout << "       [" << i << "]|";
+
 			tmp = PhoneBook::_contact[i].getFname();
-			while (tmp.size() < 10)
-				tmp = " " + tmp;
-			if (tmp.size() > 10)
-				_bool = 1;
-			tmp.resize(10);
-			if (_bool)
-				tmp[9] = '.';
-			_bool = 0;
-			std::cout << tmp << "|";
+			if (tmp.length() > 10)
+				tmp = tmp.substr(0, 9) + ".";
+			std::cout << std::setw(10) << tmp << "|";
+
 			tmp = PhoneBook::_contact[i].getLname();
-			while (tmp.size() < 10)
-				tmp = " " + tmp;
-			if (tmp.size() > 10)
-				_bool = 1;
-			tmp.resize(10);
-			if (_bool)
-				tmp[9] = '.';
-			_bool = 0;
-			std::cout << tmp << "|";
+			if (tmp.length() > 10)
+				tmp = tmp.substr(0, 9) + ".";
+			std::cout << std::setw(10) << tmp << "|";
+
 			tmp = PhoneBook::_contact[i].getNname();
-			while (tmp.size() < 10)
-				 tmp = " " + tmp;
-			if (tmp.size() > 10)
-				_bool = 1;
-			tmp.resize(10);
-			if (_bool)
-				tmp[9] = '.';
-			_bool = 0;
-			std::cout << tmp;
+			if (tmp.length() > 10)
+				tmp = tmp.substr(0, 9) + ".";
+			std::cout << std::setw(10) << tmp;
+
 			std::cout << std::endl;
 		}
 		else
-			std::cout << "       [" << i << "]|          |          |" << std::endl;
-		}
-		std::cout << "Enter the contact's index : ";
-		std::getline(std::cin, tmp);
-		i = tmp[0] - 48;
-		if (i < 0 || i > 7 || tmp.size() != 1)
-		{
-			std::cout << "Invalid Input." << std::endl;
-			return ;
-		}
-		if (!PhoneBook::_contact[i].getExist())
-			std::cout << "This contact does not exist" << std::endl;
-		else
-		{
-			std::cout << "firstname : " << _contact[i].getFname() << std::endl;
-			std::cout << "lastname : " << _contact[i].getLname() << std::endl;
-			std::cout << "nickname : " << _contact[i].getNname() << std::endl;
-			std::cout << "Number : " <<_contact[i].getNumber() << std::endl;
-			std::cout << "Darkest secret : " << _contact[i].getSecret() << std::endl;
+				std::cout << "       [" << i << "]|          |          |" << std::endl;
+			}
+			std::cout << "Enter the contact's index : ";
+			std::getline(std::cin, tmp);
+			i = tmp[0] - 48;
+			if (i < 0 || i > 7 || tmp.size() != 1)
+			{
+				std::cout << "Invalid Input." << std::endl;
+				return ;
+			}
+			if (!PhoneBook::_contact[i].getExist())
+				std::cout << "This contact does not exist" << std::endl;
+			else
+			{
+				std::cout << "firstname : " << _contact[i].getFname() << std::endl;
+				std::cout << "lastname : " << _contact[i].getLname() << std::endl;
+				std::cout << "nickname : " << _contact[i].getNname() << std::endl;
+				std::cout << "Number : " <<_contact[i].getNumber() << std::endl;
+				std::cout << "Darkest secret : " << _contact[i].getSecret() << std::endl;
 		}
 }
